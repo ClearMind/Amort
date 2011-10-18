@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+{% block content %}
+    <h3>Ваши заявки на экспертизу компьютерной техники</h3>
+    <p class="description">
+        Ниже представлен список ранее поданых Вами заявок. Каждой заявке присвоен порядковый номер.
+        Для сортировки таблицы, щелкните по заголовку столбца.
+    </p>
+
+    <table class="data">
+        <tr>
+            <th class="sortable numeric">№</th>
+            <th class="sortable">Инв. номер</th>
+            <th class="sortable">Устройство</th>
+            <th class="sortable">Год поступления</th>
+            <th class="sortable">Серийный номер</th>
+        </tr>
+        {% for r in requests %}
+            <tr>
+                <td>{{ r.pk }}</td>
+                <td>{{ r.number }}</td>
+                <td>{{ r.device }}</td>
+                <td>{{ r.year }}</td>
+                <td>{{ r.serial }}</td>
+            </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Заявок не найдено</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

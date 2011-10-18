@@ -1,0 +1,18 @@
+<div class="left menu">
+    {% block menu %}
+        <ul>
+        {% for i in menu %}
+            <li {% ifequal path i.url %}class="current"{% endifequal %}>
+                <a href="{{ i.url }}" title="{{ i.description }}">{{ i.name }}</a>
+            </li>
+        {% empty %}
+            <li>Пункты меню не заданы!</li>
+        {% endfor %}
+        {% if logout %}
+            <li class="logout">
+                <a href="/accounts/logout/" title="Выйти из текущего пользователя">Выйти</a>
+            </li>
+        {% endif %}
+        </ul>
+    {% endblock %}
+</div>

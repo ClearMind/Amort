@@ -1,0 +1,206 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-10-17 15:52+0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:8
+msgid "Menu item name"
+msgstr "Название пункта меню"
+
+#: models.py:9
+msgid "Location address"
+msgstr "Относительный адрес"
+
+#: models.py:10
+msgid "Menu item description"
+msgstr "Описание пункта меню"
+
+#: models.py:11
+msgid "Order"
+msgstr "Порядок"
+
+#: models.py:17
+msgid "Menu item"
+msgstr "Пункт меню"
+
+#: models.py:18
+msgid "Menu items"
+msgstr "Пункты меню"
+
+#: views.py:22
+msgid "Amortization & Expertise"
+msgstr "Экспертиза и списание"
+
+#: views.py:30
+msgid "Request"
+msgstr "Заявка"
+
+#: account/models.py:6
+msgid "fio"
+msgstr "ФИО"
+
+#: account/models.py:7 task/forms.py:11
+msgid "Tabel number"
+msgstr "Табельный номер"
+
+#: account/models.py:8 task/forms.py:12
+msgid "Post"
+msgstr "Должность"
+
+#: account/models.py:9 task/forms.py:13
+msgid "Cabinet"
+msgstr "Кабинет"
+
+#: account/models.py:17
+msgid "User"
+msgstr "Пользователь"
+
+#: account/models.py:18
+msgid "Users"
+msgstr "Пользователи"
+
+#: account/views.py:26
+msgid "Login"
+msgstr ""
+
+#: task/forms.py:10
+msgid "FIO"
+msgstr "ФИО"
+
+#: task/forms.py:10
+msgid "Your full name"
+msgstr "Ваше полное имя"
+
+#: task/forms.py:11
+msgid "Your tabel number"
+msgstr "Ваш табельный номер"
+
+#: task/forms.py:12
+msgid "Your post"
+msgstr "Ваша должность"
+
+#: task/forms.py:13
+msgid "Campus and Cabinet in [1-123] format"
+msgstr "Корпус и кабинет в формате [1-123]"
+
+#: task/forms.py:14
+msgid "Device"
+msgstr "Устройство"
+
+#: task/forms.py:14
+msgid "Device vendor, mark and model"
+msgstr "Производитель, марка и модель устройства"
+
+#: task/forms.py:15
+msgid "Inventory number"
+msgstr "Инвентарный номер"
+
+#: task/forms.py:15
+msgid "Full inventory number [1.1010401234]"
+msgstr "Полный инв. номер в форме [1.1010401234]"
+
+#: task/forms.py:16
+msgid "Serial number"
+msgstr "Серийный номер"
+
+#: task/forms.py:16
+msgid "Serial number of device"
+msgstr "Серийный номер устройства"
+
+#: task/forms.py:17
+msgid "Year"
+msgstr "Год приобретения"
+
+#: task/forms.py:17
+msgid "Year when this device bought"
+msgstr "Год приобретения по бухгалтерии"
+
+#: task/models.py:9
+msgid "firm name"
+msgstr "название фирмы"
+
+#: task/models.py:10
+msgid "address"
+msgstr "адрес"
+
+#: task/models.py:11
+msgid "INN"
+msgstr "ИНН"
+
+#: task/models.py:12
+msgid "bank full name"
+msgstr "полное название банка"
+
+#: task/models.py:13
+msgid "racc"
+msgstr "р/сч."
+
+#: task/models.py:14
+msgid "cacc"
+msgstr "корр./сч."
+
+#: task/models.py:15
+msgid "bic"
+msgstr "БИК"
+
+#: task/models.py:21
+#, fuzzy
+msgid "firm"
+msgstr "название фирмы"
+
+#: task/models.py:22
+msgid "firms"
+msgstr "фирмы"
+
+#: task/models.py:46
+msgid "task"
+msgstr "задача"
+
+#: task/models.py:47
+msgid "tasks"
+msgstr "задачи"
+
+#: task/models.py:52
+msgid "device"
+msgstr "устройство"
+
+#: task/models.py:53
+msgid "inventory number"
+msgstr "инвентарный номер"
+
+#: task/models.py:54
+msgid "serial number"
+msgstr "серийный номер"
+
+#: task/models.py:55
+msgid "year"
+msgstr "год"
+
+#: task/models.py:61
+#, fuzzy
+msgid "request"
+msgstr "Заявка"
+
+#: task/models.py:62
+#, fuzzy
+msgid "requests"
+msgstr "Заявка"
+
+#: task/views.py:22
+#, fuzzy
+msgid "Your requests"
+msgstr "Заявка"
