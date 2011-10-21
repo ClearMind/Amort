@@ -5,6 +5,10 @@ from amortization.account.models import Employee
 from django.utils.translation import ugettext_lazy as _
 from datetime import date
 
+# TODO ALTER TABLE task_firm ADD for_print boolean default false;
+# TODO ALTER TABLE task_firm ADD boss_name varchar(128);
+# TODO ALTER TABLE task_request ADD doc_url varchar(128) default '';
+
 class Firm(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("firm name"))
     address = models.TextField(verbose_name=_('address'))
@@ -13,6 +17,8 @@ class Firm(models.Model):
     racc = models.CharField(max_length=24, verbose_name=_('racc'))
     cacc = models.CharField(max_length=24, verbose_name=_('cacc'))
     bic = models.CharField(max_length=24, verbose_name=_('bic'))
+    boss_name = models.CharField(max_length="128", verbose_name=_('boss name'))
+    for_print = models.BooleanField(verbose_name=_('use for print'), default=False)
 
     def __unicode__(self):
         return self.name
@@ -53,6 +59,7 @@ class Request(models.Model):
     number = models.CharField(max_length=12, verbose_name=_('inventory number'))
     serial = models.CharField(max_length=24, verbose_name=_('serial number'))
     year = models.CharField(max_length=4, verbose_name=_('year'))
+    doc_url = models.CharField(max_length=128, verbose_name=_('url to generated document'), default='')
 
     def __unicode__(self):
         return "Request #%s (%s)" % (self.pk, self.device)

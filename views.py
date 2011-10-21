@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth import logout, login
+from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.middleware.csrf import get_token
@@ -24,10 +24,18 @@ def base_context(request):
     path = request.path
 
     logout = False
-    if request.user.is_authenticated():
+    employee = None
+    usr = request.user
+    menu = MenuItem.objects.filter(for_staff=False).order_by('order')
+    if usr.is_authenticated():
         logout = True
+        employee = Employee.objects.filter(user=usr)
+        if employee:
+            employee = employee[0]
+            if employee.user.is_staff:
+                menu = MenuItem.objects.order_by('order')
 
-    menu = MenuItem.objects.order_by("order");
+
 
     return locals()
 
@@ -59,12 +67,14 @@ def main(request):
                 if user.is_authenticated():
                     # logout
                     logout(request)
-                new_user = User()
-                new_user.username = postdata.get('fio', 'error!')
-                new_user.set_password(postdata.get('tab_number', 0))
-                new_user.save()
+                username = postdata.get('fio', 'error!')
+                password = postdata.get('tab_number', 0)
+                User.objects.create_user(username, 'empty@surgpu.ru', password)
+
                 # login
-                login(request, new_user)
+                new_user = authenticate(username=username, password=password)
+                if new_user:
+                    login(request, new_user)
 
                 # amortization user
                 empl = Employee()
@@ -77,7 +87,9 @@ def main(request):
                 uid = empl
             else:
                 uid = empl[0]
-                login(request, uid.user)
+                user = authenticate(username=uid.user.username, password=uid.tab_number)
+                if user:
+                    login(request, user)
 
             req = Request()
             req.user = uid

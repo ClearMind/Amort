@@ -4,7 +4,7 @@
 import os
 import time
 
-current_dir = os.path.abspath(__file__)
+current_dir = os.path.abspath(os.path.dirname(__file__))
 
 VERSION = time.ctime(os.path.getmtime(__file__))
 

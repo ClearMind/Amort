@@ -29,4 +29,29 @@ $(document).onReady(function() {
             }
         });
     }
+    if($('select-all')) {
+        checkbox = $('select-all');
+        checkbox.onClick(function(){
+            var inputs = $$("input[type='checkbox']");
+            var checked = this._.checked;
+            inputs.each(function(item){
+                if(item.get('id') != 'select-all')
+                    item._.checked = checked;
+            });
+        });
+    }
+    if($$('.doc')) {
+        $$('.doc').each(function(item){
+            item.onClick(function(){
+                var id = this.get('id');
+                var xhr = new Xhr("/get_url/request/", {
+                    params: {id: id},
+                    method: "post",
+                    onSuccess: function() {
+                        doc = window.open(this.responseText, "Download file");
+                    }
+                }).send();
+            });
+        });
+    }
 });

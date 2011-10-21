@@ -2,26 +2,29 @@
 {% block content %}
     <h3>Ваши заявки на экспертизу компьютерной техники</h3>
     <p class="description">
-        {{ employee.fio }},
-        ниже представлен список ранее поданых Вами заявок. Каждой заявке присвоен порядковый номер.
+        Ниже представлен список заявок. Каждой заявке присвоен порядковый номер.
         Для сортировки таблицы, щелкните по заголовку столбца.
     </p>
 
     <table class="data">
         <tr>
+            <th><input type="checkbox" id="select-all" /></th>
             <th class="sortable numeric">№</th>
             <th class="sortable">Инв. номер</th>
             <th class="sortable">Устройство</th>
             <th class="sortable">Год поступления</th>
-            <th class="sortable">Серийный номер</th>
+            <th class="sortable">Пользователь</th>
+            <th>Действия</th>
         </tr>
         {% for r in requests %}
             <tr>
+                <td><input type="checkbox" name="request" value="r.pk" /></td>
                 <td>{{ r.pk }}</td>
                 <td>{{ r.number }}</td>
                 <td>{{ r.device }}</td>
                 <td>{{ r.year }}</td>
-                <td>{{ r.serial }}</td>
+                <td>{{ r.user.fio }}</td>
+                <td><a class="doc" id="{{ r.pk }}" href="javascript:void(0);">Тех. заключение</a></td>
             </tr>
         {% empty %}
         <tr>

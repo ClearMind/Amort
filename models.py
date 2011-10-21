@@ -9,6 +9,7 @@ class MenuItem(models.Model):
     url = models.CharField(max_length=128, verbose_name=_('Location address'))
     description = models.TextField(verbose_name=_('Menu item description'), blank=True, null=True)
     order = models.IntegerField(verbose_name=_('Order'))
+    for_staff = models.BooleanField(verbose_name=_('For staff'), default=False)
 
     def __unicode__(self):
         return self.name
