@@ -5,10 +5,6 @@ from amortization.account.models import Employee
 from django.utils.translation import ugettext_lazy as _
 from datetime import date
 
-# TODO ALTER TABLE task_firm ADD for_print boolean default false;
-# TODO ALTER TABLE task_firm ADD boss_name varchar(128);
-# TODO ALTER TABLE task_request ADD doc_url varchar(128) default '';
-
 class Firm(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("firm name"))
     address = models.TextField(verbose_name=_('address'))

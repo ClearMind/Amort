@@ -23,7 +23,6 @@ def get_document(file_name):
         desktop = context.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", context)
         document = desktop.loadComponentFromURL("file://" + path, "_blank", 0, ())
     except UnoException, e:
-        print "The OpenOffice.org process is not started or does not listen on the resource ("+e.Message+")"
         return None
 
     return document
