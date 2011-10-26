@@ -48,7 +48,7 @@ $(document).onReady(function() {
                     params: {id: id},
                     method: "post",
                     onSuccess: function() {
-                        doc = window.open(this.responseText, "Download file");
+                        $('down').set('src', this.responseText);
                     }
                 }).send();
             });

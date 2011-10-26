@@ -24,7 +24,11 @@
                 <td>{{ r.device }}</td>
                 <td>{{ r.year }}</td>
                 <td>{{ r.user.fio }}</td>
-                <td><a class="doc" id="{{ r.pk }}" href="javascript:void(0);">Тех. заключение</a></td>
+                <td>
+                    <a class="doc" id="{{ r.pk }}" href="javascript:void(0);">
+                        <img src="/media/images/document.png" alt="Сгенерировать тех. заключение" title="Сгенерировать тех. заключение"/>
+                    </a>
+                </td>
             </tr>
         {% empty %}
         <tr>
@@ -32,4 +36,5 @@
         </tr>
         {% endfor %}
     </table>
+    <iframe width="1" height="1" src="" id="down"></iframe>
 {% endblock %}
