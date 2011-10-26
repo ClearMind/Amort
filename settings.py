@@ -3,8 +3,10 @@
 
 import os
 import time
+import logging
 
 current_dir = os.path.abspath(os.path.dirname(__file__))
+logging.basicConfig(filename=os.path.join(current_dir, "log/logger.log"))
 
 VERSION = time.ctime(os.path.getmtime(__file__))
 

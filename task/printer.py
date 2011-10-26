@@ -3,11 +3,11 @@ from amortization.task.models import Firm
 
 __author__ = 'cm'
 
-from amortization.task.models import Request
-import sys, os
+import sys, os, logging
 import uno
 from com.sun.star.uno import Exception as UnoException
 from amortization.settings import MEDIA_ROOT, MEDIA_URL
+from amortization.debug import debug, error
 
 # soffice -accept="socket,host=localhost,port=2002;urp;StarOffice.ServiceManager" -norestore -nofirstwizard -nologo -headless &
 
@@ -23,8 +23,10 @@ def get_document(file_name):
         desktop = context.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", context)
         document = desktop.loadComponentFromURL("file://" + path, "_blank", 0, ())
     except UnoException, e:
+        error(__name__,"OpenOffice connection error: %s" % e.Message)
         return None
 
+    debug(__name__, "Connected to OpenOffice")
     return document
 
 def replace(document, what, for_what):
@@ -41,6 +43,7 @@ def generate(document, values, save_to):
     if file_name[-4:] != '.odt':
         file_name += '.odt'
     document.storeAsURL(file_name, ())
+    debug(__name__, "Saved file: %s" % file_name)
     return file_name
 
 def fill_data(keys, obj):
