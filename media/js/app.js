@@ -47,6 +47,7 @@ $(document).onReady(function() {
                 var xhr = new Xhr("/get_url/request/", {
                     params: {id: id},
                     method: "post",
+                    spinner: $('spinner-' + id),
                     onSuccess: function() {
                         $('down').set('src', this.responseText);
                     }
