@@ -6,13 +6,15 @@ __author__ = 'cm'
 import sys, os, logging
 import uno
 from com.sun.star.uno import Exception as UnoException
+from com.sun.star.task import ErrorCodeIOException
 from amortization.settings import MEDIA_ROOT, MEDIA_URL
 from amortization.debug import debug, error
 
-# soffice -accept="socket,host=localhost,port=2002;urp;StarOffice.ServiceManager" -norestore -nofirstwizard -nologo -headless &
+# soffice --accept="socket,host=localhost,port=2002;urp;StarOffice.ServiceManager" --norestore -nofirstwizard --nologo --headless &
 
 def get_document(file_name):
     path = os.path.join(MEDIA_ROOT, "template_docs/" + file_name)
+    debug(__name__, path)
     
     local = uno.getComponentContext()
     resolver = local.ServiceManager.createInstanceWithContext("com.sun.star.bridge.UnoUrlResolver", local)
@@ -42,7 +44,11 @@ def generate(document, values, save_to):
     file_name = 'file://' + save_to
     if file_name[-4:] != '.odt':
         file_name += '.odt'
-    document.storeAsURL(file_name, ())
+    try:
+        document.storeAsURL(file_name, ())
+    except ErrorCodeIOException, e:
+        error(__name__, "File writing error: %s" % e.Message)
+        
     debug(__name__, "Saved file: %s" % file_name)
     return file_name
 
