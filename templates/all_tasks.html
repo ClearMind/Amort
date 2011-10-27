@@ -6,6 +6,8 @@
         Для сортировки таблицы, щелкните по заголовку столбца.
     </p>
 
+    <form method="POST" action="/process_requests/">
+    {% csrf_token %}
     <table class="data">
         <tr>
             <th><input type="checkbox" id="select-all" /></th>
@@ -18,7 +20,7 @@
         </tr>
         {% for r in requests %}
             <tr>
-                <td><input type="checkbox" name="request" value="r.pk" /></td>
+                <td><input type="checkbox" name="request" value="{{ r.pk }}" /></td>
                 <td>{{ r.pk }}</td>
                 <td>{{ r.number }}</td>
                 <td>{{ r.device }}</td>
@@ -37,5 +39,9 @@
         </tr>
         {% endfor %}
     </table>
+    <input type="hidden" name="action" value="none" id="action"/>
+    <input type="button" name="delete" id="delete" value="Удалить"/>
+    <input type="button" name="new_task" id="new_task" value="Создать задачу"/>
+    </form>
     <iframe width="1" height="1" src="" id="down"></iframe>
 {% endblock %}

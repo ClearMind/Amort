@@ -1,6 +1,6 @@
 /**
  * Created by PyCharm.
- * User: cm
+ * User: Clear_Mind
  * Date: 12.10.11
  * Time: 14:17
  * To change this template use File | Settings | File Templates.
@@ -29,8 +29,9 @@ $(document).onReady(function() {
             }
         });
     }
+    // select/unselect all
     if($('select-all')) {
-        checkbox = $('select-all');
+        var checkbox = $('select-all');
         checkbox.onClick(function(){
             var inputs = $$("input[type='checkbox']");
             var checked = this._.checked;
@@ -40,6 +41,7 @@ $(document).onReady(function() {
             });
         });
     }
+    // gen doc request
     if($$('.doc')) {
         $$('.doc').each(function(item){
             item.onClick(function(){
@@ -53,6 +55,25 @@ $(document).onReady(function() {
                     }
                 }).send();
             });
+        });
+    }
+    // form buttons
+    if($('delete')) {
+        var del = $('delete');
+        del.onClick(function(){
+            var action = $('action');
+            action.set('value', 'delete');
+            var form = del.parent('form');
+            form.submit();
+        });
+    }
+    if($('new_task')) {
+        var nt = $('new_task');
+        nt.onClick(function(){
+            var action = $('action');
+            action.set('value', 'new_task');
+            var form = nt.parent('form');
+            form.submit();
         });
     }
 });

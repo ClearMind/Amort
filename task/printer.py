@@ -3,7 +3,7 @@ from amortization.task.models import Firm
 
 __author__ = 'cm'
 
-import sys, os, logging
+import  os
 import uno
 from com.sun.star.uno import Exception as UnoException
 from com.sun.star.task import ErrorCodeIOException

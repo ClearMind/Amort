@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.middleware.csrf import get_token
 from django.template.context import Context
 from django.utils.translation import ugettext_lazy as _
@@ -9,7 +9,7 @@ from account.models import Employee
 from amortization import settings
 from models import MenuItem
 from task.forms import RequestForm
-from task.models import Request
+from task.models import Request, Task
 
 __author__ = 'cm'
 
@@ -104,4 +104,3 @@ def main(request):
             c['form'] = form
 
     return HttpResponse(template.render(Context(c)))
-  

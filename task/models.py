@@ -23,6 +23,18 @@ class Firm(models.Model):
         verbose_name = _('firm')
         verbose_name_plural = _('firms')
 
+class Commission(models.Model):
+    name = models.CharField(max_length=32, verbose_name=_('Commissioner name'))
+    post = models.CharField(max_length=64, verbose_name=_('post'))
+    order = models.IntegerField(verbose_name=_('Order in list'))
+
+    def __unicode__(self):
+        return _('Commission #%s') % self.pk
+
+    class Meta:
+        verbose_name = _('Commission member')
+        verbose_name_plural = _('Commission members')
+
 class Task(models.Model):
     STATUSES = (
         ('new', 'Новая'),
@@ -31,7 +43,8 @@ class Task(models.Model):
         ('ended', 'Закрыта')
     )
     
-    firm = models.ForeignKey(Firm)
+#    firm = models.ForeignKey(Firm)
+# TODO alter table account_task drop column firm
     date_in = models.DateField(auto_created=True)
     date_out = models.DateField()
     status = models.CharField(max_length=12, choices=STATUSES, default='new')

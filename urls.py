@@ -1,10 +1,9 @@
 from django.conf.urls.defaults import *
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from views import main
 from amortization.account.views import list_users, user_info
-from amortization.task.views import user_tasks, tasks, get_resultdoc_url
+from amortization.task.views import user_tasks, tasks, get_resultdoc_url, request_actions
 from amortization.account.views import login, logout
 
 admin.autodiscover()
@@ -16,6 +15,7 @@ urlpatterns = patterns('',
     (r'^user_info/(\S{3}.*)/$', user_info),
     (r'^my_tasks/$', user_tasks),
     (r'^all_tasks/$', tasks),
+    (r'^process_requests/$', request_actions),
     (r'^get_url/request/$', get_resultdoc_url),
     (r'^accounts/login/$', login),
     (r'^accounts/logout/$', logout),
