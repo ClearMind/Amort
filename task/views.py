@@ -99,3 +99,18 @@ def tasks(request):
     template = get_template("all_tasks.html")
 
     return HttpResponse(template.render(Context(c)))
+
+def tasks_actions(request):
+    if request.method != 'POST':
+        raise Http404
+    else:
+        postdata = request.POST.copy()
+        if postdata['action'] == 'delete':
+            ids = postdata.getlist('task')
+            if ids:
+                for i in ids:
+                    task = Task.objects.filter(pk=i)
+                    if task:
+                        task[0].delete()
+                        # TODO delete document files
+                return HttpResponseRedirect('/all_tasks/')

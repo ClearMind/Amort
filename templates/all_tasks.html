@@ -6,7 +6,7 @@
         Для сортировки таблицы, щелкните по заголовку столбца.
     </p>
 
-    <form method="POST" action="/process_requests/">
+    <form method="POST" action="/process_tasks/">
     {% csrf_token %}
     <table class="data">
         <tr>
@@ -18,7 +18,7 @@
         </tr>
         {% for t in tasks %}
             <tr>
-                <td><input type="checkbox" name="request" value="{{ t.pk }}" /></td>
+                <td><input type="checkbox" name="task" value="{{ t.pk }}" /></td>
                 <td>{{ t.pk }}</td>
                 <td>
                     <ol>
@@ -29,6 +29,7 @@
                 </td>
                 <td>{{ t.get_status_display }}</td>
                 <td>
+                    {# TODO get act url & gen doc #}
 {#                    <a class="doc" id="{{ t.pk }}" href="javascript:void(0);">#}
                         <img src="/media/images/document.png" alt="Сгенерировать тех. заключения" title="Сгенерировать тех. заключения"/>
 {#                    </a>#}
