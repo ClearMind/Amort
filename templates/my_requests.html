@@ -14,6 +14,7 @@
             <th class="sortable">Устройство</th>
             <th class="sortable">Год поступления</th>
             <th class="sortable">Серийный номер</th>
+            <th class="sortable">Статус</th>
         </tr>
         {% for r in requests %}
             <tr>
@@ -22,6 +23,7 @@
                 <td>{{ r.device }}</td>
                 <td>{{ r.year }}</td>
                 <td>{{ r.serial }}</td>
+                <td>{{ r.get_status }}</td>
             </tr>
         {% empty %}
         <tr>

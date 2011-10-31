@@ -14,7 +14,7 @@ from amortization.task.printer import expertise_result
 from amortization.task.models import Task
 
 @login_required
-def user_tasks(request):
+def user_requests(request):
     u = request.user
     au = get_object_or_404(Employee, user = u)
     requests = Request.objects.filter(user=au)
@@ -24,12 +24,12 @@ def user_tasks(request):
     c['user'] = u
     c['title'] = _('Your requests')
 
-    template = get_template("my_tasks.html")
+    template = get_template("my_requests.html")
 
     return HttpResponse(template.render(Context(c)))
 
 @login_required
-def tasks(request):
+def requests(request):
     u = request.user
     if not u.is_authenticated():
         raise Http404
@@ -40,9 +40,9 @@ def tasks(request):
 
     c = base_context(request)
     c['requests'] = requests
-    c['title'] = _('All tasks')
+    c['title'] = _('All requests')
 
-    template = get_template("all_tasks.html")
+    template = get_template("all_requests.html")
 
     return HttpResponse(template.render(Context(c)))
 
@@ -69,7 +69,7 @@ def request_actions(request):
                     if req:
                         req[0].delete()
                         # TODO delete document files
-                return HttpResponseRedirect('/all_tasks/')
+                return HttpResponseRedirect('/all_requests/')
 
         if postdata['action'] == 'new_task':
             ids = postdata.getlist('request')
@@ -80,6 +80,22 @@ def request_actions(request):
                 for i in ids:
                     req = Request.objects.filter(pk=i)
                     if req:
-                        req.task = task
-                        req.save()
+                        req[0].task = task
+                        req[0].save()
                 return HttpResponseRedirect('/all_tasks/')
+
+@login_required
+def tasks(request):
+    u = request.user
+    if not u.is_authenticated():
+        raise Http404
+    if not u.is_staff:
+        raise Http404
+
+    c = base_context(request)
+    c['tasks'] = Task.objects.all()
+    c['title'] = _('All tasks')
+
+    template = get_template("all_tasks.html")
+
+    return HttpResponse(template.render(Context(c)))

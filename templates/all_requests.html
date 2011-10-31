@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+{% block content %}
+    <h3>Заявки на экспертизу компьютерной техники</h3>
+    <p class="description">
+        Ниже представлен список заявок. Каждой заявке присвоен порядковый номер.
+        Для сортировки таблицы, щелкните по заголовку столбца.
+    </p>
+
+    <form method="POST" action="/process_requests/">
+    {% csrf_token %}
+    <table class="data">
+        <tr>
+            <th><input type="checkbox" id="select-all" /></th>
+            <th class="sortable numeric">№</th>
+            <th class="sortable">Инв. номер</th>
+            <th class="sortable">Устройство</th>
+            <th class="sortable">Год поступления</th>
+            <th class="sortable">Пользователь</th>
+            <th class="sortable">Статус</th>
+            <th>Действия</th>
+        </tr>
+        {% for r in requests %}
+            <tr>
+                <td><input type="checkbox" name="request" value="{{ r.pk }}" /></td>
+                <td>{{ r.pk }}</td>
+                <td>{{ r.number }}</td>
+                <td>{{ r.device }}</td>
+                <td>{{ r.year }}</td>
+                <td>{{ r.user.fio }}</td>
+                <td>{{ r.get_status }}</td>
+                <td>
+                    <a class="doc" id="{{ r.pk }}" href="javascript:void(0);">
+                        <img src="/media/images/document.png" alt="Сгенерировать тех. заключение" title="Сгенерировать тех. заключение"/>
+                    </a>
+                    <img src="/media/images/spinner.gif" alt="wait plaese..." id="spinner-{{ r.pk }}" class="spinner"/>
+                </td>
+            </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Заявок не найдено</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" name="action" value="none" id="action"/>
+    <input type="button" name="delete" id="delete" value="Удалить"/>
+    <input type="button" name="new_task" id="new_task" value="Создать задачу"/>
+    </form>
+    <iframe width="1" height="1" src="" id="down"></iframe>
+{% endblock %}

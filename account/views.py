@@ -39,7 +39,7 @@ def login(request):
     c['title'] = _('Login')
     c['form'] = AuthenticationForm()
 
-    c['next'] = request.GET.get('next', '/my_tasks/')
+    c['next'] = request.GET.get('next', '/my_requests/')
 
     template = get_template("registration/login.html")
 

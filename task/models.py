@@ -44,9 +44,10 @@ class Task(models.Model):
     )
     
 #    firm = models.ForeignKey(Firm)
-# TODO alter table account_task drop column firm
-    date_in = models.DateField(auto_created=True)
-    date_out = models.DateField()
+# TODO alter table task_task drop column firm_id
+# TODO ALTER TABLE task_task ALTER COLUMN date_out DROP NOT NULL;
+    date_in = models.DateField(auto_now_add=True)
+    date_out = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=12, choices=STATUSES, default='new')
 
     def __unicode__(self):
@@ -72,6 +73,14 @@ class Request(models.Model):
 
     def __unicode__(self):
         return "Request #%s (%s)" % (self.pk, self.device)
+
+    def get_status(self):
+        if not self.task:
+            return u'Новая'
+        else:
+            if self.task.status == 'new':
+                return u'В работе'
+        return self.task.get_status_display()
 
     class Meta:
         verbose_name = _('request')

@@ -1,8 +1,8 @@
 {% extends "index.html" %}
 {% block content %}
-    <h3>Ваши заявки на экспертизу компьютерной техники</h3>
+    <h3>Задачи на экспертизу компьютерной техники</h3>
     <p class="description">
-        Ниже представлен список заявок. Каждой заявке присвоен порядковый номер.
+        Ниже представлен список задач. Каждой заявке присвоен порядковый номер.
         Для сортировки таблицы, щелкните по заголовку столбца.
     </p>
 
@@ -12,36 +12,37 @@
         <tr>
             <th><input type="checkbox" id="select-all" /></th>
             <th class="sortable numeric">№</th>
-            <th class="sortable">Инв. номер</th>
-            <th class="sortable">Устройство</th>
-            <th class="sortable">Год поступления</th>
-            <th class="sortable">Пользователь</th>
+            <th>Оборудование</th>
+            <th>Статус</th>
             <th>Действия</th>
         </tr>
-        {% for r in requests %}
+        {% for t in tasks %}
             <tr>
-                <td><input type="checkbox" name="request" value="{{ r.pk }}" /></td>
-                <td>{{ r.pk }}</td>
-                <td>{{ r.number }}</td>
-                <td>{{ r.device }}</td>
-                <td>{{ r.year }}</td>
-                <td>{{ r.user.fio }}</td>
+                <td><input type="checkbox" name="request" value="{{ t.pk }}" /></td>
+                <td>{{ t.pk }}</td>
                 <td>
-                    <a class="doc" id="{{ r.pk }}" href="javascript:void(0);">
-                        <img src="/media/images/document.png" alt="Сгенерировать тех. заключение" title="Сгенерировать тех. заключение"/>
-                    </a>
-                    <img src="/media/images/spinner.gif" alt="wait plaese..." id="spinner-{{ r.pk }}" class="spinner"/>
+                    <ol>
+                    {% for r in t.request_set.all %}
+                        <li>{{ r.device }} ({{ r.user }})</li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                <td>{{ t.get_status_display }}</td>
+                <td>
+{#                    <a class="doc" id="{{ t.pk }}" href="javascript:void(0);">#}
+                        <img src="/media/images/document.png" alt="Сгенерировать тех. заключения" title="Сгенерировать тех. заключения"/>
+{#                    </a>#}
+                    <img src="/media/images/spinner.gif" alt="wait plaese..." id="spinner-{{ t.pk }}" class="spinner"/>
                 </td>
             </tr>
         {% empty %}
         <tr>
-            <td colspan="5">Заявок не найдено</td>
+            <td colspan="5">Задач не найдено</td>
         </tr>
         {% endfor %}
     </table>
     <input type="hidden" name="action" value="none" id="action"/>
     <input type="button" name="delete" id="delete" value="Удалить"/>
-    <input type="button" name="new_task" id="new_task" value="Создать задачу"/>
     </form>
     <iframe width="1" height="1" src="" id="down"></iframe>
 {% endblock %}
