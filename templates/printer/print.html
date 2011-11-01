@@ -4,6 +4,12 @@
     <title>{% if title %}{{ title }}{% else %} Print {% endif %}</title>
     <link type="text/css" rel="stylesheet" href="{{ media_url }}css/print.css" media="print" />
     <link type="text/css" rel="stylesheet" href="{{ media_url }}css/print.css" />
+    <script type="text/javascript" src="{{ media_url }}js/right.js"></script>
+    <script type="text/javascript">
+        $(document).onReady(function(){
+            window.print();
+        });
+    </script>
 </head>
 <body class="printer">
 {% block content %}
