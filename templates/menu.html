@@ -10,7 +10,7 @@
         {% endfor %}
         {% if logout %}
             <li class="logout">
-                <a href="/accounts/logout/" title="Выйти из текущего пользователя">Выйти</a>
+                <a href="/accounts/logout/" title="Выйти из текущего пользователя: {{ usr.username }}">Выйти</a>
             </li>
         {% endif %}
         </ul>
