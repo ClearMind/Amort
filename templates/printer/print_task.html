@@ -1,0 +1,24 @@
+{% extends "printer/print.html" %}
+{% block content %}
+<h2>Задача {{ task.pk }}</h2>
+<table>
+    <tr>
+        <th>№</th>
+        <th>Расположение</th>
+        <th>Пользователь</th>
+        <th>Наименование оборудования</th>
+        <th>Инвентарный номер</th>
+        <th>Пометки</th>
+    </tr>
+{% for r in requests %}
+    <tr>
+        <td>{{ r.pk }}</td>
+        <td>{{ r.user.cabinet }}</td>
+        <td>{{ r.user.fio }}</td>
+        <td>{{ r.device }}</td>
+        <td>{{ r.number }}</td>
+        <td></td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}

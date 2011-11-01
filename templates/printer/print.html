@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if title %}{{ title }}{% else %} Print {% endif %}</title>
+    <link type="text/css" rel="stylesheet" href="{{ media_url }}css/print.css" media="print" />
+    <link type="text/css" rel="stylesheet" href="{{ media_url }}css/print.css" />
+</head>
+<body class="printer">
+{% block content %}
+{% endblock %}
+</body>
+</html>

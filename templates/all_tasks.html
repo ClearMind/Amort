@@ -13,7 +13,7 @@
             <th><input type="checkbox" id="select-all" /></th>
             <th class="sortable numeric">№</th>
             <th>Оборудование</th>
-            <th>Статус</th>
+            <th class="sortable">Статус</th>
             <th>Действия</th>
         </tr>
         {% for t in tasks %}
@@ -31,8 +31,11 @@
                 <td>
                     {# TODO get act url & gen doc #}
 {#                    <a class="doc" id="{{ t.pk }}" href="javascript:void(0);">#}
-                        <img src="/media/images/document.png" alt="Сгенерировать тех. заключения" title="Сгенерировать тех. заключения"/>
+                        <img src="/media/images/document.png" alt="Акт списания" title="Акт списания"/>
 {#                    </a>#}
+                    <a href="/print/task/{{ t.pk }}">
+                        <img src="/media/images/printer.png" alt="Print" title="Напечатать эту задачу" />
+                    </a>
                     <img src="/media/images/spinner.gif" alt="wait plaese..." id="spinner-{{ t.pk }}" class="spinner"/>
                 </td>
             </tr>

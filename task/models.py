@@ -43,9 +43,6 @@ class Task(models.Model):
         ('ended', 'Закрыта')
     )
     
-#    firm = models.ForeignKey(Firm)
-# TODO alter table task_task drop column firm_id
-# TODO ALTER TABLE task_task ALTER COLUMN date_out DROP NOT NULL;
     date_in = models.DateField(auto_now_add=True)
     date_out = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=12, choices=STATUSES, default='new')

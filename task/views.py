@@ -114,3 +114,15 @@ def tasks_actions(request):
                         task[0].delete()
                         # TODO delete document files
                 return HttpResponseRedirect('/all_tasks/')
+
+def print_task(request, id):
+    task = get_object_or_404(Task, pk=id)
+    reqs = task.request_set.all()
+
+    c = base_context(request)
+    c['task'] = task
+    c['requests'] = reqs
+
+    template = get_template("printer/print_task.html")
+
+    return HttpResponse(template.render(Context(c)))
