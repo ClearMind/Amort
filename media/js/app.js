@@ -32,12 +32,22 @@ $(document).onReady(function() {
     // select/unselect all
     if($('select-all')) {
         var checkbox = $('select-all');
+        var inputs = $$('table.data input[type="checkbox"]');
         checkbox.onClick(function(){
-            var inputs = $$("input[type='checkbox']");
-            var checked = this._.checked;
+            var checked = this.checked();
             inputs.each(function(item){
                 if(item.get('id') != 'select-all')
-                    item._.checked = checked;
+                    item.checked(checked);
+                    item.fire("change");
+            });
+        });
+        inputs.each(function(item){
+            item.onChange(function(e){
+                var tr = e.target.parent('tr');
+                if(e.target.checked())
+                    tr.setStyle({ background: "#4ADEFF"});
+                else
+                    tr.setStyle({ background: "white"});
             });
         });
     }
