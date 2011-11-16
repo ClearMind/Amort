@@ -28,3 +28,5 @@ class RequestForm(forms.Form):
 
         if len(data) < 5:
             raise forms.ValidationError(_('Campus and cabinet must be in "1-221" format'))
+        
+        return data
