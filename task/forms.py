@@ -16,3 +16,15 @@ class RequestForm(forms.Form):
     serial = forms.CharField(max_length=24, label=_('Serial number'), help_text=_('Serial number of device'), required=False)
     year = forms.CharField(max_length=4, label=_('Year'), help_text=_('Year when this device bought'), required=True)
 
+    def clean_tab_number(self):
+        data = int(self.cleaned_data['tab_number'])
+        if data < 1:
+            raise forms.ValidationError(_('Tabel number must be grater than 0'))
+
+        return data
+
+    def clean_cabinet(self):
+        data = self.cleaned_data['cabinet']
+
+        if len(data) < 5:
+            raise forms.ValidationError(_('Campus and cabinet must be in "1-221" format'))
