@@ -3,9 +3,12 @@
     <h3>Заявки на экспертизу компьютерной техники</h3>
     <p class="description">
         Ниже представлен список заявок. Каждой заявке присвоен порядковый номер.
+        Заявки разбиты по группам: заявки которые добавлены в задачу на списание и находятся в работе;
+        заявки которые только появились и еще не добавлены в задачу; и заявки которые уже отработаны (оборудование списано).
         Для сортировки таблицы, щелкните по заголовку столбца.
     </p>
 
+    <h4>Новые заявки</h4>
     <form method="POST" action="/process_requests/">
     {% csrf_token %}
     <table class="data">
@@ -16,12 +19,41 @@
             <th class="sortable">Устройство</th>
             <th class="sortable">Год поступления</th>
             <th class="sortable">Пользователь</th>
-            <th class="sortable">Статус</th>
-            <th>Действия</th>
         </tr>
         {% for r in requests %}
             <tr>
                 <td><input type="checkbox" name="request" value="{{ r.pk }}" /></td>
+                <td>{{ r.pk }}</td>
+                <td>{{ r.number }}</td>
+                <td>{{ r.device }}</td>
+                <td>{{ r.year }}</td>
+                <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
+            </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Заявок не найдено</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" name="action" value="none" id="action"/>
+    <input type="button" name="delete" id="delete" value="Удалить"/>
+    <input type="button" name="new_task" id="new_task" value="Создать задачу"/>
+    <span class="button-message">Выберите строки для удаления!</span>
+    </form>
+
+    <h4>Заявки в работе:</h4>
+    <table class="data">
+        <tr>
+            <th class="sortable numeric">№</th>
+            <th class="sortable">Инв. номер</th>
+            <th class="sortable">Устройство</th>
+            <th class="sortable">Год поступления</th>
+            <th class="sortable">Пользователь</th>
+            <th class="sortable">Статус</th>
+            <th>Действия</th>
+        </tr>
+        {% for r in requests_in_tasks %}
+            <tr>
                 <td>{{ r.pk }}</td>
                 <td>{{ r.number }}</td>
                 <td>{{ r.device }}</td>
@@ -37,13 +69,10 @@
             </tr>
         {% empty %}
         <tr>
-            <td colspan="5">Заявок не найдено</td>
+            <td colspan="7">Заявок не найдено</td>
         </tr>
         {% endfor %}
     </table>
-    <input type="hidden" name="action" value="none" id="action"/>
-    <input type="button" name="delete" id="delete" value="Удалить"/>
-    <input type="button" name="new_task" id="new_task" value="Создать задачу"/>
-    </form>
+    <i>* Для удаления заявки находящейся в работе необходимо удалить ее из задачи.</i>
     <iframe width="1" height="1" src="" id="down"></iframe>
 {% endblock %}

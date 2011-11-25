@@ -67,14 +67,33 @@ $(document).onReady(function() {
             });
         });
     }
+
+    // Selected rows count
+    $(document).selected_count = function() {
+        var inputs = $$('table.data input[type="checkbox"]');
+        var count = 0;
+        inputs.each(function(item){
+            if(item.get('id') != 'select-all')
+                if(item.checked()) {
+                    count++;
+                }
+        });
+        return count;
+    }
+    
     // form buttons
     if($('delete')) {
         var del = $('delete');
         del.onClick(function(){
-            var action = $('action');
-            action.set('value', 'delete');
-            var form = del.parent('form');
-            form.submit();
+            if($(document).selected_count() > 0) {
+                var action = $('action');
+                action.set('value', 'delete');
+                var form = del.parent('form');
+                form.submit();
+            } else {
+                $$('.button-message')[0].fade("in");
+                $$('.button-message')[0].fade("out");
+            }
         });
     }
     if($('new_task')) {
@@ -84,6 +103,20 @@ $(document).onReady(function() {
             action.set('value', 'new_task');
             var form = nt.parent('form');
             form.submit();
+        });
+    }
+    if($('delete_from_task')) {
+        var dft = $('delete_from_task');
+        dft.onClick(function(){
+            if($(document).selected_count() > 0) {
+                var action = $('action');
+                action.set('value', 'delete_from_task');
+                var form = dft.parent('form');
+                form.submit();
+            } else {
+                $$('.button-message')[0].fade("in");
+                $$('.button-message')[0].fade("out");
+            }
         });
     }
 });

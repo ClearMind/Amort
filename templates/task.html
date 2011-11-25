@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+{% block content %}
+    <h3>Задача №{{ task.pk }}</h3>
+    <p class="description">
+        Ниже представлен список заявок в задаче №{{ task.pk }}.
+    </p>
+
+    <form method="POST" action="/process_requests/">
+    {% csrf_token %}
+    <table class="data">
+        <tr>
+            <th><input type="checkbox" id="select-all" /></th>
+            <th class="sortable numeric">№</th>
+            <th class="sortable">Инв. номер</th>
+            <th class="sortable">Устройство</th>
+            <th class="sortable">Год поступления</th>
+            <th class="sortable">Пользователь</th>
+        </tr>
+        {% for r in requests %}
+            <tr>
+                <td><input type="checkbox" name="request" value="{{ r.pk }}" /></td>
+                <td>{{ r.pk }}</td>
+                <td>{{ r.number }}</td>
+                <td>{{ r.device }}</td>
+                <td>{{ r.year }}</td>
+                <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
+            </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Заявок не найдено. Чего не должно было произойти.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" name="action" value="none" id="action"/>
+    <input type="hidden" name="task_id" value="{{ task.pk }}"/>
+    <input type="button" name="delete_from_task" id="delete_from_task" value="Удалить из задачи"/>
+    <span class="button-message">Выберите строки для удаления!</span>
+    </form>
+
+{% endblock %}

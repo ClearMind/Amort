@@ -19,7 +19,7 @@
         {% for t in tasks %}
             <tr>
                 <td><input type="checkbox" name="task" value="{{ t.pk }}" /></td>
-                <td>{{ t.pk }}</td>
+                <td><a href="/task/{{ t.pk }}">{{ t.pk }}</a></td>
                 <td>
                     <ol>
                     {% for r in t.request_set.all %}
@@ -47,6 +47,7 @@
     </table>
     <input type="hidden" name="action" value="none" id="action"/>
     <input type="button" name="delete" id="delete" value="Удалить"/>
+    <span class="button-message">Выберите строки для удаления!</span>
     </form>
     <iframe width="1" height="1" src="" id="down"></iframe>
 {% endblock %}

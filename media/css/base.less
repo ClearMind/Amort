@@ -5,12 +5,17 @@ body {
     margin: 0px;
     padding: 0px;
     margin-bottom: 32px;
+    min-width: 1024px;
 }
 
 table.data {
     border: 1px solid black;
-    width: 95%;
+    width: 99%;
     border-collapse: collapse;
+
+    -moz-box-shadow: 3px 3px 3px #aaa;
+    -webkit-box-shadow: 3px 3px 3px #aaa;
+    box-shadow: 3px 3px 3px #aaa;
 
     th {
         background: @base-blue;
@@ -72,7 +77,7 @@ table.data {
 
 .right {
     float: right;
-    width: 85%;
+    width: 87%;
 }
 
 .width {
@@ -103,6 +108,10 @@ table.data {
     border: 1px solid black;
     min-height: 400px;
     margin-left: 5px;
+
+    -moz-box-shadow: 3px 3px 3px #aaa;
+    -webkit-box-shadow: 3px 3px 3px #aaa;
+    box-shadow: 3px 3px 3px #aaa;
 
     ul {
         list-style: none;
@@ -140,16 +149,18 @@ table.data {
     h3 {
         padding: 5px 5px 3px 15px;
         background: @base-blue;
-        border-bottom: 1px solid black;
-        margin-right: 20px;
+        border-bottom: 2px solid black;
+        margin: 0px 10px 0px 0px;
         letter-spacing: 4px;
         font-size: 130%;
+        text-shadow: 0px 1px 0px #ffffff;
+        color: #444;
     }
     p.description {
         border-left: 3px solid red;
         background: @base-gray;
         padding: 5px;
-        margin-right: 25px;
+        margin: 4px 10px 10px 0px;
         font-size: 110%;
     }
     p.ok-message {
@@ -207,4 +218,34 @@ table.data {
 
 img.spinner {
     display: none;
+}
+
+input[type="button"], input[type="submit"] {
+    margin: 4px;
+    padding: 9px;
+    font-size: 105%;
+    text-shadow: 0px 1px 1px #eee;
+    background-color: darken(@base-blue, 20%);
+    border: 1px solid transparent;
+    outline: 0 transparent;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    &:hover {
+        background: linear-gradient(bottom, darken(@base-blue, 20%), darken(@base-blue, 10%));
+        background: -moz-linear-gradient(bottom, darken(@base-blue, 20%), darken(@base-blue, 10%));
+        background: -webkit-linear-gradient(bottom, darken(@base-blue, 20%), darken(@base-blue, 10%));
+        -moz-box-shadow: 1px 1px 1px #aaa;
+        -webkit-box-shadow: 1px 1px 1px #aaa;
+        box-shadow: 1px 1px 1px #aaa;
+    }
+}
+
+.button-message {
+    display: none;
+    color: red;
+    font-size: 105%;
+    border: 1px solid red;
+    background: @base-gray;
+    padding: 5px;
 }

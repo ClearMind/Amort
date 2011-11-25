@@ -36,10 +36,12 @@ def requests(request):
     if not u.is_staff:
         raise Http404
 
-    requests = Request.objects.all()
+    requests = Request.objects.filter(task__isnull=True)
+    requests_in_tasks = Request.objects.filter(task__isnull=False)
 
     c = base_context(request)
     c['requests'] = requests
+    c['requests_in_tasks'] = requests_in_tasks
     c['title'] = _('All requests')
 
     template = get_template("all_requests.html")
@@ -84,6 +86,21 @@ def request_actions(request):
                         req[0].save()
                 return HttpResponseRedirect('/all_tasks/')
 
+        if postdata['action'] == 'delete_from_task':
+            ids = postdata.getlist('request')
+            task = Task.objects.get(pk=postdata['task_id'])
+            reqs_count = Request.objects.filter(task=task).count()
+            if ids:
+                for i in ids:
+                    req = Request.objects.filter(pk=i)
+                    if req:
+                        req[0].task = None
+                        req[0].save()
+                if len(ids) == reqs_count:
+                    task.delete()
+                    return HttpResponseRedirect('/all_tasks/')
+                return HttpResponseRedirect('/task/%s/' % postdata['task_id'])
+
 @login_required
 def tasks(request):
     u = request.user
@@ -100,6 +117,23 @@ def tasks(request):
 
     return HttpResponse(template.render(Context(c)))
 
+@login_required
+def task(request, id):
+    u = request.user
+    if not u.is_authenticated():
+        raise Http404
+    if not u.is_staff:
+        raise Http404
+
+    c = base_context(request)
+    task = get_object_or_404(Task, pk=id)
+    c['task'] = task
+    c['requests'] = Request.objects.filter(task=task)
+    c['title'] = _('Task #%s') % id
+    template = get_template('task.html')
+
+    return HttpResponse(template.render(Context(c)))
+
 def tasks_actions(request):
     if request.method != 'POST':
         raise Http404
@@ -111,6 +145,9 @@ def tasks_actions(request):
                 for i in ids:
                     task = Task.objects.filter(pk=i)
                     if task:
+                        for r in task[0].request_set.all():
+                            r.task = None
+                            r.save()
                         task[0].delete()
                         # TODO delete document files
                 return HttpResponseRedirect('/all_tasks/')
