@@ -17,17 +17,23 @@
             <th>Действия</th>
         </tr>
         {% for t in tasks %}
-            <tr>
+            <tr id="{{ t.pk }}">
                 <td><input type="checkbox" name="task" value="{{ t.pk }}" /></td>
                 <td><a href="/task/{{ t.pk }}">{{ t.pk }}</a></td>
                 <td>
                     <ol>
                     {% for r in t.request_set.all %}
-                        <li>{{ r.device }} ({{ r.user }})</li>
+                        <li>{{ r.device }} (<a href="/user_requests/{{ r.user.pk }}">{{ r.user }}</a>)</li>
                     {% endfor %}
                     </ol>
                 </td>
-                <td>{{ t.get_status_display }}</td>
+                <td><select class="status" size="1">
+                    {% for s in t.STATUSES %}
+                    <option value="{{ s.0 }}" {% ifequal t.status s.0 %}selected{% endifequal %}>
+                        {{ s.1 }}
+                    </option>
+                    {% endfor %}
+                </select></td>
                 <td>
                     <a class="task_doc" id="{{ t.pk }}" href="javascript:void(0);">
                         <img src="/media/images/document.png" alt="Акт осмотра" title="Акт осмотра"/>

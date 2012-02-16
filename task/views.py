@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.context import Context
 from django.template.loader import get_template
+from django.utils.datetime_safe import date
 from django.views.decorators.csrf import csrf_exempt
 from amortization.account.models import Employee
 from amortization.task.models import Request, Task
@@ -128,6 +129,27 @@ def tasks(request):
     return HttpResponse(template.render(Context(c)))
 
 @login_required
+def user_requests_admin(request, uid):
+    u = request.user
+    if not u.is_authenticated():
+        raise Http404
+    if not u.is_staff:
+        raise Http404
+
+    c = base_context(request)
+    template = get_template('user_requests.html')
+
+    user = Employee.objects.get(id=uid)
+    requests = Request.objects.filter(user=user).filter(task__isnull=True)
+    requests_in_task = Request.objects.filter(user=user).filter(task__isnull=False)
+    c['title'] = u'Заявки пользователя'
+    c['requests'] = requests
+    c['requests_in_tasks'] = requests_in_task
+    c['user'] = user
+
+    return HttpResponse(template.render(Context(c)))
+
+@login_required
 def task(request, id):
     u = request.user
     if not u.is_authenticated():
@@ -173,3 +195,24 @@ def print_task(request, id):
     template = get_template("printer/print_task.html")
 
     return HttpResponse(template.render(Context(c)))
+
+@csrf_exempt
+def task_status(request):
+    if request.method != 'POST':
+        raise Http404
+    else:
+        postdata = request.POST.copy()
+        id = postdata.get('id', 0)
+        value = postdata.get('value', '')
+        if not id:
+            return HttpResponse("Bad ID")
+        if not value:
+            return HttpResponse('Bad value')
+
+        task = Task.objects.get(pk=id)
+        task.status = value
+        if value == 'ended':
+            task.date_out = date.today()
+        task.save()
+
+        return HttpResponse('OK')

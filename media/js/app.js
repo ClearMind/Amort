@@ -136,4 +136,24 @@ $(document).onReady(function() {
             }
         });
     }
+    var selects = $$('select.status');
+    if(selects) {
+        selects.each(function(item){
+            item.onChange(function(){
+                // get row id (task id)
+                var tr = this.parent('tr');
+                var id = tr.get('id');
+                var value = this.value();
+                //xhr again
+                var xhr = new Xhr("/task_status/", {
+                    params: {id: id, value: value},
+                    method: "post",
+                    spinner: $('spinner-' + id),
+                    onSuccess: function(request) {
+                        console.log(request.responseText);
+                    }
+                }).send();
+            });
+        });
+    }
 });
