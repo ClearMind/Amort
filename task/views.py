@@ -7,10 +7,10 @@ from django.template.context import Context
 from django.template.loader import get_template
 from django.views.decorators.csrf import csrf_exempt
 from amortization.account.models import Employee
-from amortization.task.models import Request
+from amortization.task.models import Request, Task
 from amortization.views import base_context
 from django.utils.translation import ugettext_lazy as _
-from amortization.task.printer import expertise_result
+from amortization.task.printer import expertise_result, act
 from amortization.task.models import Task
 
 @login_required
@@ -54,6 +54,16 @@ def get_resultdoc_url(request):
         id = request.POST.get('id', 0)
         req = Request.objects.get(pk=id)
         url = expertise_result(req)
+        return HttpResponse(url)
+    else:
+        return HttpResponse("")
+
+@csrf_exempt
+def get_actdoc_url(request):
+    if request.method == 'POST':
+        id = request.POST.get('id', 0)
+        task = Task.objects.get(pk=id)
+        url = act(task)
         return HttpResponse(url)
     else:
         return HttpResponse("")

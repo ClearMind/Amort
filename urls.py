@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 from views import main
 from amortization.account.views import list_users, user_info
-from amortization.task.views import user_requests, requests, get_resultdoc_url, request_actions, tasks, tasks_actions, print_task, task
+from amortization.task.views import user_requests, requests, get_resultdoc_url, request_actions, tasks, tasks_actions, print_task, task, get_actdoc_url
 from amortization.account.views import login, logout
 
 admin.autodiscover()
@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     (r'^process_requests/$', request_actions),
     (r'^process_tasks/$', tasks_actions),
     (r'^get_url/request/$', get_resultdoc_url),
+    (r'^get_url/task/$', get_actdoc_url),
 
 # ACCOUNTS
     (r'^accounts/login/$', login),

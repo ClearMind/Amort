@@ -46,6 +46,7 @@ class Task(models.Model):
     date_in = models.DateField(auto_now_add=True)
     date_out = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=12, choices=STATUSES, default='new')
+    doc_url = models.CharField(max_length=128, null=True, blank=True)
 
     def __unicode__(self):
         return "Task #%s" % self.pk

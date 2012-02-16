@@ -68,6 +68,23 @@ $(document).onReady(function() {
         });
     }
 
+    // gen act doc url
+    if($$('.task_doc')) {
+        $$('.task_doc').each(function(item){
+            item.onClick(function(){
+                var id = this.get('id');
+                var xhr = new Xhr("/get_url/task/", {
+                    params: {id: id},
+                    method: "post",
+                    spinner: $('spinner-' + id),
+                    onSuccess: function() {
+                        $('down').set('src', this.responseText);
+                    }
+                }).send();
+            });
+        });
+    }
+
     // Selected rows count
     $(document).selected_count = function() {
         var inputs = $$('table.data input[type="checkbox"]');

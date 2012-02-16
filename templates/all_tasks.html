@@ -29,10 +29,9 @@
                 </td>
                 <td>{{ t.get_status_display }}</td>
                 <td>
-                    {# TODO get act url & gen doc #}
-{#                    <a class="doc" id="{{ t.pk }}" href="javascript:void(0);">#}
-                        <img src="/media/images/document.png" alt="Акт списания" title="Акт списания"/>
-{#                    </a>#}
+                    <a class="task_doc" id="{{ t.pk }}" href="javascript:void(0);">
+                        <img src="/media/images/document.png" alt="Акт осмотра" title="Акт осмотра"/>
+                    </a>
                     <a href="/print/task/{{ t.pk }}">
                         <img src="/media/images/printer.png" alt="Print" title="Напечатать эту задачу" />
                     </a>

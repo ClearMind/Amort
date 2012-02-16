@@ -60,7 +60,7 @@ def fill_data(keys, obj):
     return data
 
 def expertise_result(req, rewrite=False):
-    if req.doc_url:
+    if req.doc_url and not rewrite:
         return req.doc_url
 
     document = get_document('result.odt')
@@ -87,4 +87,48 @@ def expertise_result(req, rewrite=False):
         document.dispose()
         return req.doc_url
 
+    return ''
+
+def act(task, rewrite=False):
+    if task.doc_url and not rewrite:
+        return task.doc_url
+
+    requests = task.request_set.all()
+    document = get_document("act.odt")
+    if document:
+        search = document.createSearchDescriptor()
+        search.SearchString = '$table'
+        found = document.findFirst(search)
+        if found:
+            table = document.createInstance( "com.sun.star.text.TextTable" )
+            table.initialize(1,4)
+            text = document.Text
+            text.insertTextContent(found.Start, table, 0)
+            # head
+            table.getCellByPosition(0, 0).Text.setString(u'Наименование')
+            table.getCellByPosition(1, 0).Text.setString(u'Инв. номер')
+            table.getCellByPosition(2, 0).Text.setString(u'Год приобретения')
+            table.getCellByPosition(3, 0).Text.setString(u'Состояние')
+
+            #data
+            for r in requests:
+                index = table.Rows.Count
+                table.Rows.insertByIndex(index, 1)
+                table.getCellByPosition(0, index).Text.setString(r.device)
+                table.getCellByPosition(1, index).Text.setString(r.number)
+                table.getCellByPosition(2, index).Text.setString(r.year)
+
+            path = os.path.join(MEDIA_ROOT, "docs/") + str(task.pk) + '.odt'
+            try:
+                document.storeAsURL('file://' + path, ())
+            except ErrorCodeIOException, e:
+                error(__name__, "File writing error: %s" % e.Message)
+
+            url = os.path.join(MEDIA_URL, "docs/" + str(task.pk) + ".odt")
+
+            task.doc_url = url
+            task.save()
+            document.dispose()
+
+            return url
     return ''
