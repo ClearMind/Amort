@@ -93,15 +93,15 @@ def request_actions(request):
         raise Http404
     else:
         postdata = request.POST.copy()
-        if postdata['action'] == 'delete':
-            ids = postdata.getlist('request')
-            if ids:
-                for i in ids:
-                    req = Request.objects.filter(pk=i)
-                    if req:
-                        req[0].delete()
-                        # TODO delete document files
-                return HttpResponseRedirect('/all_requests/')
+#        if postdata['action'] == 'delete':
+#            ids = postdata.getlist('request')
+#            if ids:
+#                for i in ids:
+#                    req = Request.objects.filter(pk=i)
+#                    if req:
+#                        req[0].delete()
+#                        # TODO delete document files
+#                return HttpResponseRedirect('/all_requests/')
 
         if postdata['action'] == 'new_task':
             ids = postdata.getlist('request')
