@@ -59,6 +59,7 @@ class Task(models.Model):
     class Meta:
         verbose_name = _('task')
         verbose_name_plural = _('tasks')
+        ordering = ['id']
 
 class Request(models.Model):
     user = models.ForeignKey(Employee)
@@ -68,6 +69,7 @@ class Request(models.Model):
     serial = models.CharField(max_length=24, verbose_name=_('serial number'))
     year = models.CharField(max_length=4, verbose_name=_('year'))
     doc_url = models.CharField(max_length=128, verbose_name=_('url to generated document'), default='')
+    deleted = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "Request #%s (%s)" % (self.pk, self.device)
@@ -83,4 +85,18 @@ class Request(models.Model):
     class Meta:
         verbose_name = _('request')
         verbose_name_plural = _('requests')
-    
+        ordering = ['id']
+
+class Comment(models.Model):
+    request = models.ForeignKey(Request)
+    comment = models.TextField()
+    time = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return 'Comment for request #%s' % self.request.pk
+
+    class Meta:
+        verbose_name = _('comment')
+        verbose_name_plural = _('comments')
+        ordering = ['time']
+

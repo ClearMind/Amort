@@ -85,6 +85,27 @@ $(document).onReady(function() {
         });
     }
 
+    if($$('.del')) {
+        $$('.del').each(function(item){
+            item.onClick(function(){
+                var id = this.get('id');
+                id = id.substr(4, id.length);
+                var xhr = new Xhr('/delete_request/', {
+                    params: {id: id},
+                    method: 'post',
+                    spinner: $('del-spinner-' + id),
+                    onSuccess: function(request) {
+                        var resp = request.responseText;
+                        console.log(resp);
+                        if(resp == 'OK') {
+                            $('del-'+id).parent('tr').fade();
+                        }
+                    }
+                }).send();
+            });
+        });
+    }
+
     // Selected rows count
     $(document).selected_count = function() {
         var inputs = $$('table.data input[type="checkbox"]');
@@ -136,6 +157,21 @@ $(document).onReady(function() {
             }
         });
     }
+    if($('undo')) {
+        var undo = $('undo');
+        undo.onClick(function(){
+            if($(document).selected_count() > 0) {
+                var action = $('action');
+                action.set('value', 'undo');
+                var form = undo.parent('form');
+                form.submit();
+            } else {
+                $$('.button-message')[0].fade("in");
+                $$('.button-message')[0].fade("out");
+            }
+        });
+    }
+
     var selects = $$('select.status');
     if(selects) {
         selects.each(function(item){
@@ -151,6 +187,9 @@ $(document).onReady(function() {
                     spinner: $('spinner-' + id),
                     onSuccess: function(request) {
                         console.log(request.responseText);
+                        if(value == 'ended') {
+                            $(id).fade();
+                        }
                     }
                 }).send();
             });

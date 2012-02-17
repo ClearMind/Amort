@@ -37,7 +37,7 @@ def requests(request):
     if not u.is_staff:
         raise Http404
 
-    requests = Request.objects.filter(task__isnull=True)
+    requests = Request.objects.filter(task__isnull=True).filter(deleted=False)
     requests_in_tasks = Request.objects.filter(task__isnull=False)
 
     c = base_context(request)
@@ -46,6 +46,25 @@ def requests(request):
     c['title'] = _('All requests')
 
     template = get_template("all_requests.html")
+
+    return HttpResponse(template.render(Context(c)))
+
+@login_required
+def deleted(request):
+    u = request.user
+    if not u.is_authenticated():
+        raise Http404
+    if not u.is_staff:
+        raise Http404
+
+    requests = Request.objects.filter(deleted=True)
+
+    c = base_context(request)
+    c['requests'] = requests
+    c['title'] = _('Deleted requests')
+
+    # TODO create template
+    template = get_template("deleted_requests.html")
 
     return HttpResponse(template.render(Context(c)))
 
@@ -111,6 +130,15 @@ def request_actions(request):
                     task.delete()
                     return HttpResponseRedirect('/all_tasks/')
                 return HttpResponseRedirect('/task/%s/' % postdata['task_id'])
+        if postdata['action'] == 'undo':
+            ids = postdata.getlist('request')
+            if ids:
+                for i in ids:
+                    req = Request.objects.filter(pk=i)
+                    if req:
+                        req[0].deleted = False
+                        req[0].save()
+                return HttpResponseRedirect('/all_requests/')
 
 @login_required
 def tasks(request):
@@ -121,8 +149,24 @@ def tasks(request):
         raise Http404
 
     c = base_context(request)
-    c['tasks'] = Task.objects.all()
+    c['tasks'] = Task.objects.exclude(status='ended')
     c['title'] = _('All tasks')
+
+    template = get_template("all_tasks.html")
+
+    return HttpResponse(template.render(Context(c)))
+
+@login_required
+def closed_tasks(request):
+    u = request.user
+    if not u.is_authenticated():
+        raise Http404
+    if not u.is_staff:
+        raise Http404
+
+    c = base_context(request)
+    c['tasks'] = Task.objects.filter(status__exact='ended')
+    c['title'] = _('Closed tasks')
 
     template = get_template("all_tasks.html")
 
@@ -213,6 +257,24 @@ def task_status(request):
         task.status = value
         if value == 'ended':
             task.date_out = date.today()
+        else:
+            if task.date_out:
+                task.date_out = None
         task.save()
 
+        return HttpResponse('OK')
+
+@csrf_exempt
+def delete_request(request):
+    if request.method != 'POST':
+        raise Http404
+    else:
+        postdata = request.POST.copy()
+        id = postdata.get('id', 0)
+        if not id:
+            return HttpResponse('Bad ID')
+
+        r = Request.objects.get(pk=id)
+        r.deleted = True
+        r.save()
         return HttpResponse('OK')

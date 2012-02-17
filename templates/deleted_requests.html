@@ -1,0 +1,42 @@
+{% extends "index.html" %}
+{% block content %}
+    <h3>Заявки на экспертизу компьютерной техники</h3>
+    <p class="description">
+        Ниже представлен список удаленных заявок.
+    </p>
+
+    <h4>Заявки</h4>
+    <form method="POST" action="/process_requests/">
+    {% csrf_token %}
+    <table class="data">
+        <tr>
+            <th><input type="checkbox" id="select-all" /></th>
+            <th class="sortable numeric">№</th>
+            <th class="sortable">Инв. номер</th>
+            <th class="sortable">Устройство</th>
+            <th class="sortable">Год поступления</th>
+            <th class="sortable">Пользователь</th>
+            <th>Действия</th>
+        </tr>
+        {% for r in requests %}
+            <tr>
+                <td><input type="checkbox" name="request" value="{{ r.pk }}" /></td>
+                <td>{{ r.pk }}</td>
+                <td>{{ r.number }}</td>
+                <td>{{ r.device }}</td>
+                <td>{{ r.year }}</td>
+                <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
+                <td></td>
+                <!-- TODO undo action button -->
+            </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Заявок не найдено</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="hidden" name="action" value="none" id="action"/>
+    <input type="button" name="undo" id="undo" value="Восстановить"/>
+    <span class="button-message">Выберите строки для восстановления!</span>
+    </form>
+{% endblock %}
