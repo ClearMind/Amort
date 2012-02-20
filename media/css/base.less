@@ -253,3 +253,47 @@ input[type="button"], input[type="submit"] {
     background: @base-gray;
     padding: 5px;
 }
+
+.vspace {
+    min-height: 20px;
+    clear: both;
+}
+
+.message {
+    color: red;
+    font-size: 105%;
+    border: 1px solid red;
+    background: @base-gray;
+    padding: 5px;
+    margin: 10px;
+    display: block;
+}
+
+.comment {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 2px solid @base-blue;
+    margin: 4px;
+    padding: 4px;
+    display: block;
+    clear: both;
+
+    .header {
+        color: #444;
+        font-style: italic;
+        padding: 2px;
+        margin: 2px;
+    }
+
+    .text {
+        text-indent: 1cm;
+        margin-top: 10px;
+        font-size: 120%;
+    }
+}
+
+.comment.right {
+    margin-left: 32px;
+    border: 2px solid red !important;
+}

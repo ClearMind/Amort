@@ -35,8 +35,6 @@ def base_context(request):
             if employee.user.is_staff:
                 menu = MenuItem.objects.order_by('order')
 
-
-
     return locals()
 
 def main(request):

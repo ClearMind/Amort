@@ -13,6 +13,7 @@ from amortization.views import base_context
 from django.utils.translation import ugettext_lazy as _
 from amortization.task.printer import expertise_result, act
 from amortization.task.models import Task
+from amortization.task.models import Comment
 
 @login_required
 def user_requests(request):
@@ -278,3 +279,27 @@ def delete_request(request):
         r.deleted = True
         r.save()
         return HttpResponse('OK')
+
+@login_required
+def comments(request, rid):
+    req = get_object_or_404(Request, pk=rid)
+    c = base_context(request)
+
+    if request.method == "POST":
+        postdata = request.POST.copy()
+        comment = postdata.get('comment', '')
+        if comment:
+            cm = Comment()
+            cm.user = c['employee']
+            cm.comment = comment
+            cm.request = Request.objects.get(id=rid)
+            cm.save()
+
+    comments = req.comment_set.all()
+    c['comments'] = comments
+    c['title'] = u'Комментарии к заявке'
+    c['request'] = req
+
+    template = get_template("comments.html")
+
+    return HttpResponse(template.render(Context(c)))

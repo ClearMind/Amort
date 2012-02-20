@@ -30,9 +30,13 @@
                 <td>{{ r.year }}</td>
                 <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
                 <td><a class="del" href="javascript:void(0);" id="del-{{ r.pk }}">
-                    <img src="/media/images/trash.png" alt="Удалить" title="Удалить" />
+                        <img src="/media/images/trash.png" alt="Удалить" title="Удалить" />
+                    </a>
+                    <a href="/comments/{{ r.pk }}/">
+                        <img src="/media/images/comment.png" alt="Добавить комментарий" title="Добавить комментарий" />
+                    </a>
                     <img src="/media/images/spinner.gif" alt="wait plaese..." id="del-spinner-{{ r.pk }}" class="spinner"/>
-                </a></td>
+                </td>
             </tr>
         {% empty %}
         <tr>

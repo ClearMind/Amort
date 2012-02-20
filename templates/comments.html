@@ -1,0 +1,40 @@
+{% extends "index.html" %}
+{% block content %}
+    <h3>Комментарии к заявке №{{ request.pk }}</h3>
+    <div class="vspace"></div>
+    <table class="data">
+        <tr>
+            <th>№</th>
+            <th>Инв. номер</th>
+            <th>Устройство</th>
+            <th>Год поступления</th>
+            <th>Серийный номер</th>
+            <th>Статус</th>
+        </tr>
+        <tr>
+            <td>{{ request.pk }}</td>
+            <td>{{ request.number }}</td>
+            <td>{{ request.device }}</td>
+            <td>{{ request.year }}</td>
+            <td>{{ request.serial }}</td>
+            <td>{{ request.get_status }}</td>
+        </tr>
+    </table>
+    <div class="vspace"></div>
+    {% for c in comments %}
+        <div class="comment{% if c.user.user.is_staff %} right{% endif %}">
+            <div class="header">{{ c.user }} ({{ c.time }})</div>
+            <div class="text">{{ c.comment|safe }}</div>
+        </div>
+    {% empty %}
+        <span class="message">Нет комментариев.</span>
+    {% endfor %}
+    <div class="vspace"></div>
+    <div style="text-align: right;">
+        <form action="." method="post">
+            {% csrf_token %}
+            <textarea rows="10" cols="80" name="comment"></textarea><br />
+            <input type="submit" value="Добавить комментарий" />
+        </form>
+    </div>
+{% endblock %}

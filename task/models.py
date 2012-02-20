@@ -75,6 +75,8 @@ class Request(models.Model):
         return "Request #%s (%s)" % (self.pk, self.device)
 
     def get_status(self):
+        if self.deleted:
+            return u'Отклонена'
         if not self.task:
             return u'Новая'
         else:
@@ -91,6 +93,7 @@ class Comment(models.Model):
     request = models.ForeignKey(Request)
     comment = models.TextField()
     time = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(Employee)
 
     def __unicode__(self):
         return 'Comment for request #%s' % self.request.pk

@@ -23,7 +23,9 @@
                 <td>{{ r.device }}</td>
                 <td>{{ r.year }}</td>
                 <td>{{ r.serial }}</td>
-                <td>{{ r.get_status }}</td>
+                <td>{{ r.get_status }}<br />
+                    {% if r.comment_set.all %}<a href="/comments/{{ r.pk }}/">Есть комментарии ({{ r.comment_set.count }})</a>{% endif %}
+                </td>
             </tr>
         {% empty %}
         <tr>

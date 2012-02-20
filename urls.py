@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import *
 
 from django.contrib import admin
-from amortization.task.views import task_status, user_requests_admin, deleted, delete_request, closed_tasks
-from views import main
+from amortization.task.views import task_status, user_requests_admin, deleted, delete_request, closed_tasks, comments
+from amortization.views import main
 from amortization.account.views import list_users, user_info
 from amortization.task.views import user_requests, requests, get_resultdoc_url, request_actions, tasks, tasks_actions, print_task, task, get_actdoc_url
 from amortization.account.views import login, logout
@@ -27,6 +27,7 @@ urlpatterns = patterns('',
     (r'^get_url/request/$', get_resultdoc_url),
     (r'^get_url/task/$', get_actdoc_url),
     (r'^user_requests/(\d+)/$', user_requests_admin),
+    (r'^comments/(\d+)/$', comments),
 
 # ACCOUNTS
     (r'^accounts/login/$', login),
