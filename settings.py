@@ -11,7 +11,7 @@ logging.basicConfig(
     filemode='a'
 )
 
-VERSION = time.ctime(os.path.getmtime(__file__))
+VERSION = '1.0'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
