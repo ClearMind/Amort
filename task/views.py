@@ -64,7 +64,6 @@ def deleted(request):
     c['requests'] = requests
     c['title'] = _('Deleted requests')
 
-    # TODO create template
     template = get_template("deleted_requests.html")
 
     return HttpResponse(template.render(Context(c)))

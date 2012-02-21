@@ -19,6 +19,7 @@
             <th class="sortable">Устройство</th>
             <th class="sortable">Год поступления</th>
             <th class="sortable">Пользователь</th>
+            <th>Действия</th>
         </tr>
         {% for r in requests %}
             <tr>
@@ -28,6 +29,11 @@
                 <td>{{ r.device }}</td>
                 <td>{{ r.year }}</td>
                 <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
+                <td>
+                    <a href="/comments/{{ r.pk }}/">
+                        <img src="/media/images/comment.png" alt="Добавить комментарий" title="Добавить комментарий" />
+                    </a>
+                </td>
             </tr>
         {% empty %}
         <tr>

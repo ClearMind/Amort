@@ -26,8 +26,11 @@
                 <td>{{ r.device }}</td>
                 <td>{{ r.year }}</td>
                 <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
-                <td></td>
-                <!-- TODO undo action button -->
+                <td>
+                    <a href="/comments/{{ r.pk }}/">
+                        <img src="/media/images/comment.png" alt="Добавить комментарий" title="Добавить комментарий" />
+                    </a>
+                </td>
             </tr>
         {% empty %}
         <tr>
