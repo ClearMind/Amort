@@ -8,7 +8,7 @@
         Для сортировки таблицы, щелкните по заголовку столбца.
     </p>
 
-    <h4>Новые заявки</h4>
+    <h4>Отдельные заявки</h4>
     <form method="POST" action="/process_requests/">
     {% csrf_token %}
     <table class="data">
@@ -18,7 +18,7 @@
             <th class="sortable">Инв. номер</th>
             <th class="sortable">Устройство</th>
             <th class="sortable">Год поступления</th>
-            <th class="sortable">Пользователь</th>
+            <th class="sortable">Статус</th>
             <th>Действия</th>
         </tr>
         {% for r in requests %}
@@ -28,7 +28,9 @@
                 <td>{{ r.number }}</td>
                 <td>{{ r.device }}</td>
                 <td>{{ r.year }}</td>
-                <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
+                <td>
+                    {{ r.get_status }}{% if r.deleted %} (удалена){% endif %}
+                </td>
                 <td>
                     <a href="/comments/{{ r.pk }}/">
                         <img src="/media/images/comment.png" alt="Добавить комментарий" title="Добавить комментарий" />
