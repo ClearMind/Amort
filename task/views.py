@@ -18,7 +18,7 @@ from amortization.task.models import Comment
 @login_required
 def user_requests(request):
     u = request.user
-    au = get_object_or_404(Employee, user = u)
+    au = get_object_or_404(Employee, user=u)
     requests = Request.objects.filter(user=au)
 
     c = base_context(request)
@@ -30,6 +30,7 @@ def user_requests(request):
 
     return HttpResponse(template.render(Context(c)))
 
+
 @login_required
 def requests(request):
     u = request.user
@@ -39,7 +40,7 @@ def requests(request):
         raise Http404
 
     requests = Request.objects.filter(task__isnull=True).filter(deleted=False)
-    requests_in_tasks = Request.objects.filter(task__isnull=False)
+    requests_in_tasks = Request.objects.filter(task__isnull=False).exclude(task__status='ended')
 
     c = base_context(request)
     c['requests'] = requests
@@ -49,6 +50,26 @@ def requests(request):
     template = get_template("all_requests.html")
 
     return HttpResponse(template.render(Context(c)))
+
+
+@login_required
+def ended_requests(request):
+    u = request.user
+    if not u.is_authenticated():
+        raise Http404
+    if not u.is_staff:
+        raise Http404
+
+    requests_in_tasks = Request.objects.filter(task__status='ended')
+
+    c = base_context(request)
+    c['requests'] = requests_in_tasks
+    c['title'] = _('All ended requests')
+
+    template = get_template("all_ended_requests.html")
+
+    return HttpResponse(template.render(Context(c)))
+
 
 @login_required
 def deleted(request):
@@ -68,6 +89,7 @@ def deleted(request):
 
     return HttpResponse(template.render(Context(c)))
 
+
 @csrf_exempt
 def get_resultdoc_url(request):
     if request.method == 'POST':
@@ -77,6 +99,7 @@ def get_resultdoc_url(request):
         return HttpResponse(url)
     else:
         return HttpResponse("")
+
 
 @csrf_exempt
 def get_actdoc_url(request):
@@ -88,20 +111,21 @@ def get_actdoc_url(request):
     else:
         return HttpResponse("")
 
+
 def request_actions(request):
     if request.method != 'POST':
         raise Http404
     else:
         postdata = request.POST.copy()
-#        if postdata['action'] == 'delete':
-#            ids = postdata.getlist('request')
-#            if ids:
-#                for i in ids:
-#                    req = Request.objects.filter(pk=i)
-#                    if req:
-#                        req[0].delete()
-#                        # TODO delete document files
-#                return HttpResponseRedirect('/all_requests/')
+        #        if postdata['action'] == 'delete':
+        #            ids = postdata.getlist('request')
+        #            if ids:
+        #                for i in ids:
+        #                    req = Request.objects.filter(pk=i)
+        #                    if req:
+        #                        req[0].delete()
+        #                        # TODO delete document files
+        #                return HttpResponseRedirect('/all_requests/')
 
         if postdata['action'] == 'new_task':
             ids = postdata.getlist('request')
@@ -140,6 +164,7 @@ def request_actions(request):
                         req[0].save()
                 return HttpResponseRedirect('/all_requests/')
 
+
 @login_required
 def tasks(request):
     u = request.user
@@ -156,6 +181,7 @@ def tasks(request):
 
     return HttpResponse(template.render(Context(c)))
 
+
 @login_required
 def closed_tasks(request):
     u = request.user
@@ -171,6 +197,7 @@ def closed_tasks(request):
     template = get_template("all_tasks.html")
 
     return HttpResponse(template.render(Context(c)))
+
 
 @login_required
 def user_requests_admin(request, uid):
@@ -193,6 +220,7 @@ def user_requests_admin(request, uid):
 
     return HttpResponse(template.render(Context(c)))
 
+
 @login_required
 def task(request, id):
     u = request.user
@@ -209,6 +237,7 @@ def task(request, id):
     template = get_template('task.html')
 
     return HttpResponse(template.render(Context(c)))
+
 
 def tasks_actions(request):
     if request.method != 'POST':
@@ -228,6 +257,7 @@ def tasks_actions(request):
                         # TODO delete document files
                 return HttpResponseRedirect('/all_tasks/')
 
+
 def print_task(request, id):
     task = get_object_or_404(Task, pk=id)
     reqs = task.request_set.all()
@@ -239,6 +269,7 @@ def print_task(request, id):
     template = get_template("printer/print_task.html")
 
     return HttpResponse(template.render(Context(c)))
+
 
 @csrf_exempt
 def task_status(request):
@@ -264,6 +295,7 @@ def task_status(request):
 
         return HttpResponse('OK')
 
+
 @csrf_exempt
 def delete_request(request):
     if request.method != 'POST':
@@ -278,6 +310,7 @@ def delete_request(request):
         r.deleted = True
         r.save()
         return HttpResponse('OK')
+
 
 @login_required
 def comments(request, rid):

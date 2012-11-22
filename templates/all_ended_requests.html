@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% block content %}
+    <h3>Заявки на экспертизу компьютерной техники</h3>
+    <p class="description">
+        Ниже представлен список отработанных заявок. Каждой заявке присвоен порядковый номер.
+        Для сортировки таблицы, щелкните по заголовку столбца.
+    </p>
+
+    <h4>Заявки</h4>
+    <form method="POST" action="/process_requests/">
+        {% csrf_token %}
+        <table class="data">
+            <tr>
+                <th class="sortable numeric">№</th>
+                <th class="sortable">Инв. номер</th>
+                <th class="sortable">Устройство</th>
+                <th class="sortable">Год поступления</th>
+                <th class="sortable">Пользователь</th>
+            </tr>
+            {% for r in requests %}
+                <tr>
+                    <td>{{ r.pk }}</td>
+                    <td>{{ r.number }}</td>
+                    <td>{{ r.device }}</td>
+                    <td>{{ r.year }}</td>
+                    <td>{{ r.user.fio }} [{{ r.user.cabinet }}]</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">Заявок не найдено</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </form>
+{% endblock %}
